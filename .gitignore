@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+#mis exclusiones
+src/firebase.config.ts

@@ -4,6 +4,6 @@ module.exports = {
     require('daisyui')
   ],
   daisyui: {
-    themes: ["corporate"],
+    themes: ["lofi"],
   },
 };
