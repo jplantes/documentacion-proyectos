@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile, type AuthError } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updatePassword, updateProfile, type AuthError } from 'firebase/auth'
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore'
 import type { UserRole } from '../interfaces/userRoleInterface'
 import { useAuthStore } from '../store/authStore'
@@ -84,7 +84,7 @@ export const useAuth = () => {
         // Doi de alta al usuario en firebase con email y password
         await createUserWithEmailAndPassword(auth, email, password)
         // Actulizo el nombre del usuario
-        await actulizarNombre(displayName)
+        await changeName(displayName)
       }
       // Guardo los permisos en la base de datos de este usuario
       await guardarPermisos(uidGoogle)
@@ -113,6 +113,26 @@ export const useAuth = () => {
     }
   }
 
+  const recuperarPassword = async (email: string) => {
+    auth.languageCode = 'es'
+
+    try {
+      isLoading.value = true
+      await sendPasswordResetEmail(auth, email)
+      isLoading.value = false
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const changePassword = async (newPassword: string) => {
+    const user = auth.currentUser
+    if (!user) return
+
+    await updatePassword(user, newPassword)
+
+  }
+
   const errorsAuthHandler = (errorCode: string) => {
     console.log(errorCode)
 
@@ -126,7 +146,7 @@ export const useAuth = () => {
 
   // Metodos contra Firebase firestore
 
-  const actulizarNombre = async (displayName: string) => {
+  const changeName = async (displayName: string) => {
     const currentUser = auth.currentUser
     if (currentUser) {
       await updateProfile(currentUser, { displayName })
@@ -196,6 +216,10 @@ export const useAuth = () => {
     onRegister,
     onLogin,
     addProyecto,
+
+    recuperarPassword,
+    changeName,
+    changePassword,
 
     leerPermisos,
   }

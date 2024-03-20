@@ -58,6 +58,21 @@ const router = createRouter({
       }
     },
     {
+      path: '/perfil',
+      name: 'perfil',
+      component: () => import('@/shared/layouts/MainLayout.vue'),
+      children: [
+        {
+          path: 'editar',
+          name: 'perfil-editar-usuario',
+          component: () => import('@/modules/config/pages/EditarUsuarioConfigPage.vue'),
+        },
+      ],
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/config',
       name: 'config',
       component: () => import('@/shared/layouts/MainLayout.vue'),
@@ -71,21 +86,25 @@ const router = createRouter({
               path: 'usuarios',
               name: 'config-usuarios',
               component: () => import('@/modules/config/pages/UsuariosConfigPage.vue'),
+              meta: { isAdmin: true },
             },
             {
               path: 'nuevo-usuario/:uuid?',
               name: 'config-nuevo-usuario',
               component: () => import('@/modules/config/pages/NuevoUsuarioConfigPage.vue'),
+              meta: { isAdmin: true },
             },
             {
               path: 'proyectos',
               name: 'config-proyectos',
               component: () => import('@/modules/config/pages/ProyectosConfigPage.vue'),
+              meta: { isAdmin: true },
             },
             {
               path: 'nuevo-proyecto',
               name: 'config-nuevo-proyecto',
               component: () => import('@/modules/config/pages/NuevoProyectoConfigPage.vue'),
+              meta: { isAdmin: true },
             },
             {
               path: '',
@@ -96,7 +115,6 @@ const router = createRouter({
       ],
       meta: {
         requiresAuth: true,
-        isAdmin: true,
       }
     },
 
@@ -110,7 +128,6 @@ const router = createRouter({
           name: 'auth-singin',
           component: () => import('@/modules/auth/pages/SingInPage.vue'),
         },
-
       ]
     },
 

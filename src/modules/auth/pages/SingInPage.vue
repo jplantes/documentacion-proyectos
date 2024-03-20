@@ -11,21 +11,24 @@ const { email, password, isLoading, messageError, onLogin } = useAuth()
     <p class="mb-3 text-center">Logueate para acceder a la plataforma</p>
 
     <div v-if="messageError !== ''" role="alert" class="alert alert-error mb-5">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
       <span>{{ messageError }}</span>
     </div>
-  
+
     <form @submit.prevent="onLogin">
       <div class="flex flex-col mb-5">
         <label>Email:</label>
-        <input v-model="email" type="email" placeholder="Type here" class="input input-bordered w-full" />
+        <input v-model="email" type="email" class="input input-bordered w-full" />
       </div>
-  
+
       <div class="flex flex-col mb-5">
         <label>Contraseña:</label>
-        <input v-model="password" type="password" placeholder="Type here" class="input input-bordered w-full" />
+        <input v-model="password" type="password" class="input input-bordered w-full" />
       </div>
-  
+
 
       <div class="mt-8">
         <button v-if="!isLoading" type="submit" class="btn btn-success btn-block">Ingresar</button>
@@ -39,6 +42,4 @@ const { email, password, isLoading, messageError, onLogin } = useAuth()
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

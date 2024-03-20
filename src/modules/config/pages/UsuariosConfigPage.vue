@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { EditPencil } from '@iconoir/vue'
+import { EditPencil, PasswordCursor } from '@iconoir/vue'
 import { useConfig } from '../composables/configComposable';
+import { useAuth } from '@/modules/auth/composables/authComposable';
 
 const { getUsuarios, isLoading, usuarios } = useConfig()
+const { recuperarPassword, isLoading: isLoadingSend } = useAuth()
 
 getUsuarios()
 
@@ -28,10 +30,19 @@ getUsuarios()
           <td class="py-4">{{ usuario.data.name }}</td>
           <td class="py-4">{{ usuario.data.email }}</td>
           <td class="flex justify-around py-4">
-            <RouterLink :to="{ name: 'config-nuevo-usuario', params: { uuid: usuario.id } }"
-              class="btn btn-circle btn-outline">
-              <EditPencil />
-            </RouterLink>
+            <div class="tooltip" data-tip="Editar usuario">
+              <RouterLink :to="{ name: 'config-nuevo-usuario', params: { uuid: usuario.id } }"
+                class="btn btn-circle btn-outline">
+                <EditPencil />
+              </RouterLink>
+            </div>
+
+            <div class="tooltip" data-tip="Recuperar contraseña">
+              <button @click="recuperarPassword(usuario.data.email)" class="btn btn-circle btn-outline"
+                :disabled="isLoadingSend">
+                <PasswordCursor />
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
