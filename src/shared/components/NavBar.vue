@@ -13,9 +13,9 @@ const onLogOut = async () => {
 }
 
 const closeMenu = () => {
-  const elem = document.activeElement;
+  const elem = document.activeElement as HTMLElement;
   if (elem) {
-    elem?.blur();
+    elem.blur();
   }
 }
 

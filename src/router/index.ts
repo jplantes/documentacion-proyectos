@@ -1,8 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
 import HomeView from '../views/HomeView.vue'
+import MainLayout from '@/shared/layouts/MainLayout.vue'
+
 import { useAuth } from '@/modules/auth/composables/authComposable'
 import { useAuthStore } from '@/modules/auth/store/authStore'
+
+import { docRouter } from '../modules/documentacion/router'
+import { qaRouter } from '../modules/qa/router'
+import { perfilRouter, configRouter } from '../modules/config/router'
+import { authRouter } from '@/modules/auth/router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +18,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'inicio',
-      component: () => import('@/shared/layouts/MainLayout.vue'),
+      component: MainLayout,
       children: [
         {
           path: '',
@@ -23,112 +31,24 @@ const router = createRouter({
       }
     },
     {
+      ...docRouter,
       path: '/documentos',
-      name: 'docs-inicio',
-      component: () => import('@/shared/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: ':proyect',
-          name: 'docs-proyectos',
-          component: () => import('@/modules/documentacion/pages/InicialDocPage.vue'),
-        },
-        {
-          path: 'doc-new/:proyect',
-          name: 'docs-new',
-          component: () => import('@/modules/documentacion/pages/NewDocPage.vue'),
-        },
-      ],
-      meta: {
-        requiresAuth: true
-      }
     },
     {
+      ...qaRouter,
       path: '/qa',
-      name: 'qa-inicio',
-      component: () => import('@/shared/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: ':proyect',
-          name: 'qa-proyectos',
-          component: () => import('@/modules/qa/pages/InicioQaPage.vue'),
-        },
-      ],
-      meta: {
-        requiresAuth: true
-      }
     },
     {
+      ...perfilRouter,
       path: '/perfil',
-      name: 'perfil',
-      component: () => import('@/shared/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: 'editar',
-          name: 'perfil-editar-usuario',
-          component: () => import('@/modules/config/pages/EditarUsuarioConfigPage.vue'),
-        },
-      ],
-      meta: {
-        requiresAuth: true
-      }
     },
     {
+      ...configRouter,
       path: '/config',
-      name: 'config',
-      component: () => import('@/shared/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: '',
-          name: 'config-inicio',
-          component: () => import('@/modules/config/pages/InicioConfigPage.vue'),
-          children: [
-            {
-              path: 'usuarios',
-              name: 'config-usuarios',
-              component: () => import('@/modules/config/pages/UsuariosConfigPage.vue'),
-              meta: { isAdmin: true },
-            },
-            {
-              path: 'nuevo-usuario/:uuid?',
-              name: 'config-nuevo-usuario',
-              component: () => import('@/modules/config/pages/NuevoUsuarioConfigPage.vue'),
-              meta: { isAdmin: true },
-            },
-            {
-              path: 'proyectos',
-              name: 'config-proyectos',
-              component: () => import('@/modules/config/pages/ProyectosConfigPage.vue'),
-              meta: { isAdmin: true },
-            },
-            {
-              path: 'nuevo-proyecto',
-              name: 'config-nuevo-proyecto',
-              component: () => import('@/modules/config/pages/NuevoProyectoConfigPage.vue'),
-              meta: { isAdmin: true },
-            },
-            {
-              path: '',
-              redirect: { name: 'config-usuarios' },
-            }
-          ],
-        },
-      ],
-      meta: {
-        requiresAuth: true,
-      }
     },
-
     {
+      ...authRouter,
       path: '/auth',
-      name: 'auth',
-      component: () => import('@/modules/auth/layout/AuthLayout.vue'),
-      children: [
-        {
-          path: 'singin',
-          name: 'auth-singin',
-          component: () => import('@/modules/auth/pages/SingInPage.vue'),
-        },
-      ]
     },
 
     {
