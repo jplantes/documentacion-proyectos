@@ -74,12 +74,13 @@ onMounted(async () => {
   isLoading.value = true
 
   // Si esta en el store no vuelvo a hacer la petición
-  if (docsStore.documentos) {
-    allDocs.value = docsStore.documentos
-  } else {
-    await obtenerDocumentos()
-  }
-
+  // if (docsStore.documentos) {
+  //   allDocs.value = docsStore.documentos
+  // } else {
+  //   await obtenerDocumentos()
+  // }
+  allDocs.value = docsStore.documentos
+  await obtenerDocumentos()
   menuDinamico.value = ordenarDocumentos(allDocs.value)
 
   isLoading.value = false
