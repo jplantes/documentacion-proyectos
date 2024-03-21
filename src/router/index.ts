@@ -33,7 +33,7 @@ const router = createRouter({
           component: () => import('@/modules/documentacion/pages/InicialDocPage.vue'),
         },
         {
-          path: 'doc-new',
+          path: 'doc-new/:proyect',
           name: 'docs-new',
           component: () => import('@/modules/documentacion/pages/NewDocPage.vue'),
         },
