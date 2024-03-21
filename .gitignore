@@ -30,4 +30,4 @@ coverage
 *.tsbuildinfo
 
 #mis exclusiones
-src/firebase.config.ts
+.env
