@@ -11,7 +11,7 @@ getUsuarios()
 </script>
 
 <template>
-  <div class="flex flex-col md:justify-between md:items-end">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-end">
     <h1 class="text-2xl text-center mb-2 md:mb-0 md:text-3xl">Administración de usuarios</h1>
     <RouterLink :to="{ name: 'config-nuevo-usuario' }" class="btn btn-neutral">Crear usuario</RouterLink>
   </div>
