@@ -12,7 +12,7 @@ const { isUdatingName, isUdatingPassword, displayName, password1, password2, act
 
       <h3 class="text-3xl mb-10">Perfil usuario</h3>
 
-      <div class="grid grid-cols-2 gap-5 mt-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
         <div class="shadow-xl p-4">
           <h3 class="flex items-end text-lg mb-4">
             Corregir nombre
@@ -50,12 +50,12 @@ const { isUdatingName, isUdatingPassword, displayName, password1, password2, act
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-5 mt-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
 
         <div class="shadow-xl p-6">
           <h4 class="text-lg mb-4">Proyectos asignados</h4>
 
-          <p v-for="proyecto in authStore.proyect" :key="proyecto" class="p-2 bg-gray-300 my-2 rounded w-1/3">
+          <p v-for="proyecto in authStore.proyect" :key="proyecto" class="p-2 bg-gray-300 my-2 rounded w-2/3 md:w-1/3">
             {{ filtrarProyectos(proyecto) }}
           </p>
         </div>
@@ -63,7 +63,7 @@ const { isUdatingName, isUdatingPassword, displayName, password1, password2, act
         <div class="shadow-xl p-6">
           <h4 class="text-lg mb-4">Tipo de usuario</h4>
 
-          <p v-for="user in authStore.typeUser" :key="user" class="p-2 bg-gray-300 my-2 rounded w-1/3">
+          <p v-for="user in authStore.typeUser" :key="user" class="p-2 bg-gray-300 my-2 rounded w-2/3 md:w-1/3">
             {{ user === 'dev' ? 'Desarrollador' : 'QA' }}
           </p>
         </div>

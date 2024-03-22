@@ -74,13 +74,14 @@ const guardarDocumento = async (documento: DocTecnico) => {
   <HeaderPages :title="titleHeader" :breadcrumbs="['E-Center', 'Documentos', 'Nuevo documento']" />
 
   <div class="container mx-auto mt-10">
-    <div class="flex items-end">
-      <div class="flex flex-col w-1/3 gap-3 ">
+
+    <div class="flex flex-col ml-3 md:flex-row md:ml-0 md:items-end">
+      <div class="flex flex-col md:w-1/3 md:gap-3 ">
         <label>Titulo</label>
         <input v-model="title" type="text" class="input input-bordered w-full max-w-xs" />
       </div>
 
-      <div class="flex flex-col w-1/3 gap-3 ">
+      <div class="flex flex-col md:w-1/3 md:gap-3 ">
         <label>Tipo de documento</label>
         <select v-model="tipo" class="select select-bordered w-full max-w-xs">
           <option disabled selected></option>
@@ -89,8 +90,8 @@ const guardarDocumento = async (documento: DocTecnico) => {
         </select>
       </div>
 
-      <div v-if="isSaving" class="flex justify-center self-center w-1/3 gap-3 ">
-        <span class="loading loading-bars loading-xs"></span>
+      <div v-if="isSaving" class="flex justify-center self-center order-first md:order-last md:w-1/3 md:gap-3 ">
+        <span class="loading loading-bars loading-xs mr-3"></span>
         <h3>Guardando Documento...</h3>
       </div>
     </div>

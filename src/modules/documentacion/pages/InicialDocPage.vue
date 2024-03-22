@@ -98,12 +98,12 @@ onMounted(async () => {
     </div>
 
 
-    <div v-else class="flex">
-      <div class="flex-none w-1/4 h-min rounded shadow p-5 mb-10 bg-white">
+    <div v-else class="flex flex-col md:flex-row">
+      <div class="flex-none md:w-1/4 h-min rounded shadow p-5 mb-10 bg-white">
         <RouterLink v-if="authStore.isDev" :to="{ name: 'docs-new' }" class="btn btn-block btn-success mb-8">Nuevo
           documento</RouterLink>
 
-        <ul class="menu w-56 rounded-box">
+        <ul class="menu md:w-56 rounded-box">
           <li v-for="menu of menuDinamico" :key="menu.tipo">
             <summary>{{ menu.tipo }}</summary>
             <ul>
@@ -115,7 +115,7 @@ onMounted(async () => {
         </ul>
       </div>
 
-      <div class="flex-auto w-3/4 rounded shadow p-5 ml-5 mb-10 bg-white">
+      <div class="flex-auto md:w-3/4 rounded shadow p-5 md:ml-5 mb-10 bg-white">
         <MdPreview :modelValue="texto" />
         <h5 v-if="autor" class="text-sm text-gray-300">Autor: {{ autor }}</h5>
       </div>

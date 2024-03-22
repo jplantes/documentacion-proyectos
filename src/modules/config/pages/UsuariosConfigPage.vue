@@ -11,13 +11,13 @@ getUsuarios()
 </script>
 
 <template>
-  <div class="flex justify-between items-end">
-    <h1 class="text-3xl">Administración de usuarios</h1>
+  <div class="flex flex-col md:justify-between md:items-end">
+    <h1 class="text-2xl text-center mb-2 md:mb-0 md:text-3xl">Administración de usuarios</h1>
     <RouterLink :to="{ name: 'config-nuevo-usuario' }" class="btn btn-neutral">Crear usuario</RouterLink>
   </div>
 
   <div v-if="!isLoading" class="mt-12">
-    <table class="table-auto w-full">
+    <table class="table-auto w-full hidden md:block">
       <thead>
         <tr>
           <th class="w-2/5 py-6 text-left">Nombre</th>
@@ -47,6 +47,32 @@ getUsuarios()
         </tr>
       </tbody>
     </table>
+
+    <div class="md:hidden">
+      <div v-for="usuario of usuarios" :key="usuario.id">
+        <div class="card bg-base-100 shadow-xl mb-3">
+          <div class="card-body">
+            <h2 class="text-xl">{{ usuario.data.name }}</h2>
+            <p class="text-sm text-gray-500 break-all">{{ usuario.data.email }}</p>
+            <div class="card-actions justify-around pt-5">
+              <div class="tooltip" data-tip="Editar usuario">
+                <RouterLink :to="{ name: 'config-nuevo-usuario', params: { uuid: usuario.id } }"
+                  class="btn btn-circle btn-outline">
+                  <EditPencil />
+                </RouterLink>
+              </div>
+
+              <div class="tooltip" data-tip="Recuperar contraseña">
+                <button @click="recuperarPassword(usuario.data.email)" class="btn btn-circle btn-outline"
+                  :disabled="isLoadingSend">
+                  <PasswordCursor />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div v-else class="flex flex-col justify-center items-center h-96">

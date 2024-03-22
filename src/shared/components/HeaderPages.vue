@@ -11,7 +11,7 @@ const props = defineProps<HeaderPagesProps>()
 
 <template>
   <div class="flex h-52 bg-gradient-to-r from-indigo-200 from-10% to-blue-600 to-90%">
-    <div class="container mx-auto">
+    <div class="container mx-auto pl-4">
       <div class="text-sm breadcrumbs py-8">
         <ul>
           <li v-for="item of props.breadcrumbs" v-bind:key="item">
@@ -19,12 +19,10 @@ const props = defineProps<HeaderPagesProps>()
           </li>
         </ul>
       </div>
-  
+
       <h3 class="text-3xl self-center">{{ props.title }}</h3>
     </div>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

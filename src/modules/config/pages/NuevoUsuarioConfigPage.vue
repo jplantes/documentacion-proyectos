@@ -66,22 +66,22 @@ if (uuid) {
 
 <template>
 
-  <div class="flex justify-between items-end px-3">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-end md:px-3">
     <h1 class="text-3xl">Alta de usuarios</h1>
-    <div class="w-2/5 px-3 flex justify-end items-end">
+    <div class="mt-3 md:mt-0 md:w-2/5 md:px-3 flex items-center justify-between md:justify-end md:items-end">
       <span class="label-text mr-5">Es administrador</span>
       <input v-model="isAdmin" type="checkbox" class="toggle toggle-success" />
     </div>
   </div>
 
   <div>
-    <div class="flex">
-      <div class="w-1/2 px-3">
+    <div class="flex flex-col md:flex-row">
+      <div class="md:w-1/2 md:px-3">
         <label for="name" class="block mt-8 mb-4">Nombre</label>
         <input v-model="displayName" type="text" id="name" class="input input-bordered w-full" required
           :disabled="isEditable" />
       </div>
-      <div class="w-1/2 px-3">
+      <div class="md:w-1/2 md:px-3">
         <label for="email" class="block mt-8 mb-4">Email</label>
         <input v-model="email" type="email" id="email" class="input input-bordered w-full" required
           :disabled="isEditable" />
@@ -89,8 +89,8 @@ if (uuid) {
     </div>
 
 
-    <div class="flex">
-      <div class="flex flex-col w-1/2 px-3">
+    <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col md:w-1/2 px-3">
 
         <div class="flex">
           <div class="w-3/4">
@@ -118,7 +118,7 @@ if (uuid) {
 
       </div>
 
-      <div class="w-1/2 px-3">
+      <div class="md:w-1/2 px-3">
         <div class="flex">
           <div class="w-3/4">
             <label for="name" class="block mt-8 mb-4">Tipo de usuario</label>

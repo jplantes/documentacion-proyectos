@@ -8,8 +8,8 @@ getProyectos()
 </script>
 
 <template>
-  <div class="flex justify-between items-end">
-    <h1 class="text-3xl">Administración de proyectos</h1>
+  <div class="flex flex-col md:flex-row md:justify-between md:items-end">
+    <h1 class="text-2xl mb-3 md:mb-0 md:text-3xl">Administración de proyectos</h1>
     <RouterLink :to="{ name: 'config-nuevo-proyecto' }" class="btn btn-neutral">Crear proyecto</RouterLink>
   </div>
 
@@ -23,28 +23,19 @@ getProyectos()
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="proyecto in proyectos"
-          :key="proyecto.id"
-        >
+        <tr v-for="proyecto in proyectos" :key="proyecto.id">
           <td class="py-4">{{ proyecto.data.nombre }}</td>
           <td class="py-4">{{ proyecto.data.codigo }}</td>
           <td class="flex justify-around py-4">
-            <div  v-if="proyecto.data.isActive" class="tooltip" data-tip="Deshabilita el pryecto">
-              <button
-                @click="changeIsActiveProyect(proyecto.id)"
-                class="btn btn-circle btn-outline"
-              >
-                <ThumbsDown/>
+            <div v-if="proyecto.data.isActive" class="tooltip" data-tip="Deshabilita el pryecto">
+              <button @click="changeIsActiveProyect(proyecto.id)" class="btn btn-circle btn-outline">
+                <ThumbsDown />
               </button>
             </div>
 
             <div v-else class="tooltip" data-tip="Habilita el pryecto">
-              <button
-                @click="changeIsActiveProyect(proyecto.id)"
-                class="btn btn-circle btn-outline"
-              >
-                <ThumbsUp/>
+              <button @click="changeIsActiveProyect(proyecto.id)" class="btn btn-circle btn-outline">
+                <ThumbsUp />
               </button>
             </div>
           </td>

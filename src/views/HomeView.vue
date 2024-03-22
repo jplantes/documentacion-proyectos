@@ -37,7 +37,7 @@ onMounted(() => {
 
         <div class="flex w-full mt-5">
           <RouterLink :to="{ name: 'docs-proyectos', params: { proyect: modulo.codigo } }"
-            class="grid w-1/2 card bg-base-200 rounded-box place-items-center">Docs</RouterLink>
+            class="grid w-1/2 h-14 card bg-base-200 rounded-box place-items-center">Docs</RouterLink>
           <!-- <div class="divider divider-horizontal text-sm">O</div>
           <RouterLink :to="{ name: 'qa-proyectos', params: { proyect: modulo.codigo } }"
             class="grid w-1/2 card bg-base-200 rounded-box place-items-center">QA</RouterLink> -->
