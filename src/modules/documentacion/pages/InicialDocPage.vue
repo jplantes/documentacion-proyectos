@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDocs, getFirestore } from 'firebase/firestore'
 
+import { EditPencil, Trash } from '@iconoir/vue'
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 
@@ -20,11 +21,29 @@ const router = useRoute()
 const db = getFirestore()
 
 const isLoading = ref(false)
-const autor = ref('')
 const menuDinamico = ref<docGroup[]>([])
 const allDocs = ref<docWithId[]>([])
 
-const texto = ref('# Hola mundo')
+const texto = ref('')
+const autor = ref('')
+const idDoc = ref('')
+const titulo = ref('')
+
+const eliminarDocumento = async () => {
+  console.log(idDoc.value);
+  if (idDoc.value) {
+    console.log('Eliminando');
+    const refDoc = doc(db, 'global', 'documentacion', router.params.proyect as string, idDoc.value)
+    await deleteDoc(refDoc)
+    console.log('se elimino');
+    await inicializar()
+
+    texto.value = ''
+    autor.value = ''
+    titulo.value = ''
+
+  }
+}
 
 const obtenerDocumentos = async (): Promise<void> => {
   const refCollection = collection(db, 'global', 'documentacion', router.params.proyect as string)
@@ -45,15 +64,15 @@ const verArticulo = (id: string) => {
   const cuerpo = allDocs.value.find((doc) => doc.id === id)
 
   if (cuerpo) {
+    idDoc.value = id
+    titulo.value = cuerpo.data.titulo
     texto.value = cuerpo.data.cuerpo
     autor.value = cuerpo.data.autor
   }
 }
 
 const ordenarDocumentos = (docs: docWithId[]): docGroup[] => {
-  // Ordenar documentos
   const salida: docGroup[] = []
-
 
   const tipos = Object.values(Tipo)
   tipos.forEach((tipo) => {
@@ -69,6 +88,11 @@ const ordenarDocumentos = (docs: docWithId[]): docGroup[] => {
   return salida
 }
 
+const inicializar = async () => {
+  allDocs.value = docsStore.documentos
+  await obtenerDocumentos()
+  menuDinamico.value = ordenarDocumentos(allDocs.value)
+}
 onMounted(async () => {
 
   isLoading.value = true
@@ -79,9 +103,7 @@ onMounted(async () => {
   // } else {
   //   await obtenerDocumentos()
   // }
-  allDocs.value = docsStore.documentos
-  await obtenerDocumentos()
-  menuDinamico.value = ordenarDocumentos(allDocs.value)
+  inicializar()
 
   isLoading.value = false
 })
@@ -104,19 +126,40 @@ onMounted(async () => {
           documento</RouterLink>
 
         <ul class="menu md:w-56 rounded-box">
-          <li v-for="menu of menuDinamico" :key="menu.tipo">
-            <summary>{{ menu.tipo }}</summary>
-            <ul>
-              <li v-for="title of menu.docs" :key="title.id">
-                <a @click="verArticulo(title.id)">{{ title.data.titulo }}</a>
-              </li>
-            </ul>
-          </li>
+          <div v-for="menu of menuDinamico" :key="menu.tipo">
+            <li v-if="menu.docs.length > 0">
+              <details>
+                <summary>{{ menu.tipo }} ({{ menu.docs.length }})</summary>
+                <ul>
+                  <li v-for="title of menu.docs" :key="title.id">
+                    <a @click="verArticulo(title.id)">{{ title.data.titulo }}</a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </div>
         </ul>
       </div>
 
       <div class="flex-auto md:w-3/4 rounded shadow p-5 md:ml-5 mb-10 bg-white">
+        <div v-if="(authStore.isAdmin || authStore.isDev) && texto !== ''"
+          class="flex flex-col md:flex-row md:justify-between mb-5">
+          <h3 class="text-3xl">{{ titulo }}</h3>
+
+          <div class="flex justify-between order-first mb-9 md:order-last">
+            <button v-if="authStore.isAdmin" @click="eliminarDocumento"
+              class="btn btn-error btn-circle btn-outline mx-2">
+              <Trash />
+            </button>
+
+            <button v-if="authStore.isDev" class="btn btn-info btn-circle btn-outline mx-2">
+              <EditPencil />
+            </button>
+          </div>
+        </div>
+
         <MdPreview :modelValue="texto" />
+
         <h5 v-if="autor" class="text-sm text-gray-300">Autor: {{ autor }}</h5>
       </div>
     </div>
