@@ -58,11 +58,11 @@ onMounted(async () => {
       </div>
 
       <div class="flex-auto md:w-3/4 rounded shadow p-5 md:ml-5 mb-10 bg-white">
-        <div v-if="(authStore.isAdmin || authStore.isDev) && texto !== ''"
-          class="flex flex-col md:flex-row md:justify-between mb-5">
+        <div class="flex flex-col md:flex-row md:justify-between mb-5">
           <h3 class="text-3xl">{{ titulo }}</h3>
 
-          <div class="flex justify-between order-first mb-9 md:order-last">
+          <div v-if="(authStore.isAdmin || authStore.isDev) && texto !== ''"
+            class="flex justify-between order-first mb-9 md:order-last">
             <button v-if="authStore.isAdmin" @click="eliminarDocumento"
               class="btn btn-error btn-circle btn-outline mx-2">
               <Trash />
