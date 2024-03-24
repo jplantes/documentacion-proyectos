@@ -3,7 +3,9 @@ export interface DocTecnico {
   cuerpo: string;
   autor: string;
   tipo: string;
-  updateBy?: string;
+  editBy?: string;
+  createtAt?: string;
+  updateAt?: string;
 }
 
 export interface docGroup {

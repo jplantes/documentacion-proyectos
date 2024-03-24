@@ -6,7 +6,7 @@ import { useDocs } from '../composables/docsComposable'
 
 
 
-const { isLoading, inicializar, texto, titulo, autor, idDoc, authStore, HeaderPages, menuDinamico, verArticulo, eliminarDocumento, EditPencil, Trash, MdPreview } = useDocs()
+const { isLoading, inicializar, texto, titulo, autor, createtAt, updateAt, editBy, idDoc, authStore, HeaderPages, menuDinamico, verArticulo, eliminarDocumento, EditPencil, Trash, MdPreview } = useDocs()
 
 console.log(texto.value)
 onMounted(async () => {
@@ -78,7 +78,8 @@ onMounted(async () => {
 
         <MdPreview :modelValue="texto" />
 
-        <h5 v-if="autor" class="text-sm text-gray-300">Autor: {{ autor }}</h5>
+        <h5 v-if="autor" class="text-xs text-gray-300">Autor: {{ autor }} <span>({{ createtAt }})</span></h5>
+        <h5 v-if="editBy" class="text-xs text-gray-300">Actualizado por: {{ editBy }} <span>({{ updateAt }})</span></h5>
       </div>
     </div>
   </div>

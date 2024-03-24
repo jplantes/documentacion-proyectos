@@ -14,7 +14,7 @@ if (route.params.idEntrada) {
 </script>
 
 <template>
-  <HeaderPages :title="titleHeader" :breadcrumbs="['E-Center', 'Documentos', 'Nuevo documento']" />
+  <HeaderPages :title="titleHeader" :breadcrumbs="['Documentos', 'Nuevo documento']" />
 
   <div class="container mx-auto mt-10">
 

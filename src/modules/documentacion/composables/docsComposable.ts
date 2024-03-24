@@ -33,6 +33,9 @@ export const useDocs = () => {
 
   const texto = ref('')
   const autor = ref('')
+  const createtAt = ref('')
+  const updateAt = ref('')
+  const editBy = ref('')
   const idDoc = ref('')
   const titulo = ref('')
   const tipo = ref('')
@@ -56,6 +59,9 @@ export const useDocs = () => {
       texto.value = ''
       autor.value = ''
       titulo.value = ''
+      createtAt.value = ''
+      updateAt.value = ''
+      editBy.value = ''
 
     }
   }
@@ -83,8 +89,11 @@ export const useDocs = () => {
       idDoc.value = id
       titulo.value = cuerpo.data.titulo
       texto.value = cuerpo.data.cuerpo
-      autor.value = cuerpo.data.autor
       tipo.value = cuerpo.data.tipo
+      autor.value = cuerpo.data.autor
+      createtAt.value = cuerpo.data.createtAt || ''
+      updateAt.value = cuerpo.data.updateAt || ''
+      editBy.value = cuerpo.data.editBy || ''
     }
   }
 
@@ -123,18 +132,33 @@ export const useDocs = () => {
       return
     }
 
-    const nuevoDocumento: DocTecnico = {
-      titulo: titulo.value,
-      cuerpo: value,
-      autor: authStore.name,
-      tipo: tipo.value,
-    }
+
 
     if (isUpdating.value) {
       // TODO: Actualizar
+      const updateDoc: DocTecnico = {
+        titulo: titulo.value,
+        cuerpo: value,
+        autor: authStore.name,
+        tipo: tipo.value,
+        editBy: authStore.name,
+        updateAt: new Date().toISOString(),
+      }
+
+      console.log(updateDoc);
       const refDoc = doc(db, 'global', 'documentacion', route.params.proyect as string, idDoc.value)
-      await setDoc(refDoc, nuevoDocumento)
+
+      isSaving.value = true
+      await setDoc(refDoc, updateDoc, { merge: true })
+      isSaving.value = false
     } else {
+      const nuevoDocumento: DocTecnico = {
+        titulo: titulo.value,
+        cuerpo: value,
+        autor: authStore.name,
+        tipo: tipo.value,
+        createtAt: new Date().toISOString(),
+      }
       await guardarDocumento(nuevoDocumento)
     }
 
@@ -164,6 +188,9 @@ export const useDocs = () => {
     menuDinamico,
     texto,
     autor,
+    createtAt,
+    updateAt,
+    editBy,
     idDoc,
     titulo,
     titleHeader,
