@@ -14,7 +14,7 @@ export const docRouter: RouteRecordRaw = {
       component: InicialDocPage,
     },
     {
-      path: 'doc-new/:proyect',
+      path: 'doc-new/:proyect/:idEntrada?',
       name: 'docs-new',
       component: NewDocPage,
     },
