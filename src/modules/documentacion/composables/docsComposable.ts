@@ -90,7 +90,7 @@ export const useDocs = () => {
       titulo.value = cuerpo.data.titulo
       texto.value = cuerpo.data.cuerpo
       tipo.value = cuerpo.data.tipo
-      autor.value = cuerpo.data.autor
+      autor.value = cuerpo.data.autor || ''
       createtAt.value = cuerpo.data.createtAt || ''
       updateAt.value = cuerpo.data.updateAt || ''
       editBy.value = cuerpo.data.editBy || ''
@@ -139,7 +139,6 @@ export const useDocs = () => {
       const updateDoc: DocTecnico = {
         titulo: titulo.value,
         cuerpo: value,
-        autor: authStore.name,
         tipo: tipo.value,
         editBy: authStore.name,
         updateAt: new Date().toISOString(),

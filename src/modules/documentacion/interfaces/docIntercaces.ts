@@ -1,7 +1,7 @@
 export interface DocTecnico {
   titulo: string;
   cuerpo: string;
-  autor: string;
+  autor?: string;
   tipo: string;
   editBy?: string;
   createtAt?: string;
