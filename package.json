@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@iconoir/vue": "^7.5.0",
+    "@vavt/v3-extension": "^1.1.2",
     "firebase": "^10.9.0",
     "md-editor-v3": "^4.12.1",
     "md-editor-v3-i18-es-ar": "^0.0.2",

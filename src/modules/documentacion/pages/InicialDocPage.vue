@@ -2,13 +2,11 @@
 import { onMounted } from 'vue'
 
 import { useDocs } from '../composables/docsComposable'
-
-
+import MarkdownPreview from '@/shared/components/MarkdownPreview.vue';
 
 
 const { isLoading, inicializar, texto, titulo, autor, createtAt, updateAt, editBy, idDoc, authStore, HeaderPages, menuDinamico, verArticulo, eliminarDocumento, EditPencil, Trash, MdPreview } = useDocs()
 
-console.log(texto.value)
 onMounted(async () => {
 
   isLoading.value = true
@@ -76,7 +74,7 @@ onMounted(async () => {
           </div>
         </div>
 
-        <MdPreview :modelValue="texto" />
+        <MarkdownPreview :texto="texto" />
 
         <h5 v-if="autor" class="text-xs text-gray-300">Autor: {{ autor }} <span>({{ createtAt }})</span></h5>
         <h5 v-if="editBy" class="text-xs text-gray-300">Actualizado por: {{ editBy }} <span>({{ updateAt }})</span></h5>
