@@ -63,6 +63,7 @@ export const useDocs = () => {
       updateAt.value = ''
       editBy.value = ''
 
+      await obtenerDocumentos()
       isDeleting.value = false
     }
   }
