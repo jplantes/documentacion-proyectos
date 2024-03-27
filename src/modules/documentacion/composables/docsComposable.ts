@@ -28,6 +28,7 @@ export const useDocs = () => {
 
   const isLoading = ref(false)
   const isUpdating = ref(false)
+  const isDeleting = ref(false)
   const menuDinamico = ref<docGroup[]>([])
   const allDocs = ref<docWithId[]>([])
 
@@ -50,11 +51,10 @@ export const useDocs = () => {
 
   const eliminarDocumento = async () => {
     if (idDoc.value) {
-      console.log('Eliminando');
+      isDeleting.value = true
       const refDoc = doc(db, 'global', 'documentacion', route.params.proyect as string, idDoc.value)
       await deleteDoc(refDoc)
-      console.log('se elimino');
-      await inicializar()
+      await inicializar(undefined)
 
       texto.value = ''
       autor.value = ''
@@ -63,6 +63,7 @@ export const useDocs = () => {
       updateAt.value = ''
       editBy.value = ''
 
+      isDeleting.value = false
     }
   }
 
@@ -83,7 +84,7 @@ export const useDocs = () => {
 
   const verArticulo = (id: string) => {
     const cuerpo = docsStore.documentos.find((doc) => doc.id === id)
-    console.log(cuerpo)
+
 
     if (cuerpo) {
       idDoc.value = id
@@ -114,10 +115,22 @@ export const useDocs = () => {
     return salida
   }
 
-  const inicializar = async () => {
-    allDocs.value = docsStore.documentos
-    await obtenerDocumentos()
+  const inicializar = async (idEntrada: string | undefined) => {
+    console.log('entro en inicializar')
+    isLoading.value = true
+
+    if (!docsStore.documentos) {
+      await obtenerDocumentos()
+    } else {
+      allDocs.value = docsStore.documentos
+    }
     menuDinamico.value = ordenarDocumentos(allDocs.value)
+
+    if (idEntrada) {
+      console.log('entro en ver articulo');
+      verArticulo(idEntrada)
+    }
+    isLoading.value = false
   }
 
 
@@ -132,8 +145,6 @@ export const useDocs = () => {
       return
     }
 
-
-
     if (isUpdating.value) {
       // TODO: Actualizar
       const updateDoc: DocTecnico = {
@@ -143,8 +154,6 @@ export const useDocs = () => {
         editBy: authStore.name,
         updateAt: new Date().toISOString(),
       }
-
-      console.log(updateDoc);
       const refDoc = doc(db, 'global', 'documentacion', route.params.proyect as string, idDoc.value)
 
       isSaving.value = true
@@ -162,7 +171,8 @@ export const useDocs = () => {
     }
 
 
-    router.push({ name: 'docs-proyectos', params: { proyect: route.params.proyect } })
+    await obtenerDocumentos()
+    router.push({ name: 'docs-proyectos', params: { proyect: route.params.proyect, idEntrada: idDoc.value } })
   }
 
   // Metodos con firebase
@@ -184,6 +194,7 @@ export const useDocs = () => {
   return {
     isLoading,
     isUpdating,
+    isDeleting,
     menuDinamico,
     texto,
     autor,

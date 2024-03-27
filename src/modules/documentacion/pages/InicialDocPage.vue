@@ -1,30 +1,54 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-
+import { onMounted, watch } from 'vue';
 import { useDocs } from '../composables/docsComposable'
 import MarkdownPreview from '@/shared/components/MarkdownPreview.vue';
 
 
-const { isLoading, inicializar, texto, titulo, autor, createtAt, updateAt, editBy, idDoc, authStore, HeaderPages, menuDinamico, verArticulo, eliminarDocumento, EditPencil, Trash, MdPreview } = useDocs()
 
-onMounted(async () => {
+const {
+  isLoading,
+  isDeleting,
+  texto,
+  titulo,
+  autor,
+  createtAt,
+  updateAt,
+  editBy,
+  idDoc,
+  menuDinamico,
 
-  isLoading.value = true
+  authStore,
 
-  // TODO: Si esta en el store no vuelvo a hacer la petición
-  // if (docsStore.documentos) {
-  //   allDocs.value = docsStore.documentos
-  // } else {
-  //   await obtenerDocumentos()
-  // }
-  inicializar()
+  inicializar,
+  verArticulo,
+  eliminarDocumento,
 
-  isLoading.value = false
+  HeaderPages,
+  EditPencil,
+  Trash,
+
+  route,
+} = useDocs()
+
+
+inicializar(route.params.idEntrada as string)
+
+
+watch(() => route.params.idEntrada, (id) => {
+  verArticulo(id as string)
 })
+
+onMounted(() => {
+  console.log('entro');
+  inicializar(route.params.idEntrada as string)
+})
+
+
 </script>
 
 <template>
-  <HeaderPages title="Documentación" :breadcrumbs="['E-Center', 'Documentación']" />
+  <HeaderPages title="Documentación" :breadcrumbs="['E-Center',
+    'Documentación']" />
 
 
   <div class="container mx-auto py-8">
@@ -46,7 +70,10 @@ onMounted(async () => {
                 <summary>{{ menu.tipo }} ({{ menu.docs.length }})</summary>
                 <ul>
                   <li v-for="title of menu.docs" :key="title.id">
-                    <a @click="verArticulo(title.id)">{{ title.data.titulo }}</a>
+                    <RouterLink
+                      :to="{ name: 'docs-proyectos', params: { proyect: route.params.proyect, idEntrada: title.id } }">
+                      {{
+    title.data.titulo }}</RouterLink>
                   </li>
                 </ul>
               </details>
@@ -61,9 +88,12 @@ onMounted(async () => {
 
           <div v-if="(authStore.isAdmin || authStore.isDev) && texto !== ''"
             class="flex justify-between order-first mb-9 md:order-last">
-            <button v-if="authStore.isAdmin" @click="eliminarDocumento"
+            <button v-if="authStore.isAdmin && !isDeleting" @click="eliminarDocumento"
               class="btn btn-error btn-circle btn-outline mx-2">
               <Trash />
+            </button>
+            <button v-else class="btn btn-error btn-circle btn-outline mx-2" disabled>
+              <span class="loading loading-ball loading-md"></span>
             </button>
 
             <button v-if="authStore.isDev"

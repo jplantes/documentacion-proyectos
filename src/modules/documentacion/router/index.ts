@@ -9,7 +9,7 @@ export const docRouter: RouteRecordRaw = {
   component: MainLayout,
   children: [
     {
-      path: ':proyect',
+      path: ':proyect/:idEntrada?',
       name: 'docs-proyectos',
       component: InicialDocPage,
     },
