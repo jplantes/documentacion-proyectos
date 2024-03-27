@@ -54,6 +54,7 @@ export const useDocs = () => {
       isDeleting.value = true
       const refDoc = doc(db, 'global', 'documentacion', route.params.proyect as string, idDoc.value)
       await deleteDoc(refDoc)
+      await obtenerDocumentos()
       await inicializar(undefined)
 
       texto.value = ''
@@ -63,7 +64,6 @@ export const useDocs = () => {
       updateAt.value = ''
       editBy.value = ''
 
-      await obtenerDocumentos()
       isDeleting.value = false
     }
   }
@@ -117,7 +117,6 @@ export const useDocs = () => {
   }
 
   const inicializar = async (idEntrada: string | undefined) => {
-    console.log('entro en inicializar')
     isLoading.value = true
 
     if (!docsStore.documentos) {
@@ -128,7 +127,6 @@ export const useDocs = () => {
     menuDinamico.value = ordenarDocumentos(allDocs.value)
 
     if (idEntrada) {
-      console.log('entro en ver articulo');
       verArticulo(idEntrada)
     }
     isLoading.value = false
@@ -187,7 +185,7 @@ export const useDocs = () => {
       await addDoc(refCollection, documento)
       isSaving.value = false
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
